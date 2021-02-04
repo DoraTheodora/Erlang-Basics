@@ -58,12 +58,16 @@ insertAtFront(Element, [])->
 insertAtFront(Element,[H|T])->
     [Element|insertAtFront(H, T)].
 
+insertFront(Item,List)->
+    [Item|List].
+
 % * appendAtEnd() inserts and element at the end of the list
 appendAtEnd(Element, [])->
     [Element];
 appendAtEnd(Element, [H|T])->
     [H|appendAtEnd(Element, T)].
 
+% * concatonateTwoLists() concatonates two lists together
 concatonateTwoLists([], [])->
     [];
 concatonateTwoLists([], [H|T])->
@@ -73,11 +77,31 @@ concatonateTwoLists([H|T], [])->
 concatonateTwoLists(L1,[H|T])->
     %[[A|concatonateTwoLists(B, [])] | [H|concatonateTwoLists([],T)]].
     concatonateTwoLists(appendAtEnd(H, L1), T).
+
+conc([], [])->
+    [];
+conc([], [H|T])->
+    [H|T];
+conc([H|T], [])->
+    [H|T];
+conc([H1|T1], [H2|T2])->
+    [H1|conc(T1, [H2|T2])].
+
+% * zip() zips to list together => [1,2,3] and [a,b,c] => [1,a,2,b,3,c]
+zipTwoLists([],[])->
+    [];
+zipTwoLists([H1|T1], [H2|T2])->
+    [{H1, H2}|zipTwoLists(T1, T2)].
     
-% TODO: insertAtFront(q, [1,2,3]) == [q,1,2,3]
-% TODO: appeend(q, [1,2,3]) == [1,2,3,q]
-% TODO: concatonate ([1,2,3], [a,b,c]) == [1,2,3,a,b,c]
-% TODO: zip([1,2,3].[a,b,c]) == [1,a,2,b,3,c]
+% * factorial() gives back a factorial result from N
+factorial(0) ->
+    1;
+factorial(N)->
+    N*factorial(N-1).
+
+% TODO: insertAtPosition() inserts an element at a certain pisition
+% TODO: sortList() sorts the list 
+% TODO: reverseList() reverses a list
 % TODO: flatten([[1,2,[3]], 4,5, [[[6]]]) == [1,2,3,4,5,6]
 
 
