@@ -92,6 +92,42 @@ zipTwoLists([],[])->
     [];
 zipTwoLists([H1|T1], [H2|T2])->
     [{H1, H2}|zipTwoLists(T1, T2)].
+
+zipFlattenList([],[])->
+    [];
+zipFlattenList([],List)->
+    List;
+zipFlattenList(List, [])->
+    List;
+zipFlattenList([H1|T1], [H2|T2])->
+    [H1,H2|zipFlattenList(T1,T2)].
+
+% * flatten() gives back from nested lists a flatten list [a,[1,2,3,[a,b,c]]] => [a,1,2,3,a,b,c]
+flatten([])->
+    [];
+flatten([[]|List])->
+    flatten(List);
+flatten([[H1|T1]|T2])->
+    flatten([H1|T1])++flatten(T2);
+flatten([H|T])->
+    [H|flatten(T)].
+
+% * reverse() gives back the list in reverse order [1,2,3] => [3,2,1]
+rev([],ReverseList)->
+    ReverseList;
+rev([H|T],ReverseList)->
+    rev(T,[H|ReverseList]).
+
+revs([])->
+    [];
+revs([H|T])->
+    revs(T)++[H].
+
+% * insertAtPosition() inserts an element at a certain pisition x,3,[1,2,3,4,5,6] => [1,2,3,x,4,5,6]
+insertAtPosition(Item, 0, List)->
+    [Item|List];
+insertAtPosition(Item, Pos, [H|T])->
+    [H|insertAtPosition(Item, Pos-1, T)].    
     
 % * factorial() gives back a factorial result from N
 factorial(0) ->
@@ -103,8 +139,6 @@ factorial(N)->
 % TODO: sortList() sorts the list 
 % TODO: reverseList() reverses a list
 % TODO: flatten([[1,2,[3]], 4,5, [[[6]]]) == [1,2,3,4,5,6]
-
-
 
 % * for(start, end, function)
 for(Start, Start, Function)->
