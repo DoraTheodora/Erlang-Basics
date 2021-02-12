@@ -127,7 +127,15 @@ revs([H|T])->
 insertAtPosition(Item, 0, List)->
     [Item|List];
 insertAtPosition(Item, Pos, [H|T])->
-    [H|insertAtPosition(Item, Pos-1, T)].    
+    [H|insertAtPosition(Item, Pos-1, T)].   
+
+% * sortList() returns the list sorted
+sortList([])->
+    [];
+sortList([H|T])->
+    % ? [everything less then H]++[H]++[everything grater than H]
+    sortList([X||X<-T,X<H])++[H]++sortList([Y||Y<-T,Y>H]).
+
     
 % * factorial() gives back a factorial result from N
 factorial(0) ->
@@ -135,10 +143,7 @@ factorial(0) ->
 factorial(N)->
     N*factorial(N-1).
 
-% TODO: insertAtPosition() inserts an element at a certain pisition
 % TODO: sortList() sorts the list 
-% TODO: reverseList() reverses a list
-% TODO: flatten([[1,2,[3]], 4,5, [[[6]]]) == [1,2,3,4,5,6]
 
 % * for(start, end, function)
 for(Start, Start, Function)->
