@@ -2,7 +2,7 @@
 % C00231174
 % Prime Numbers and Twin Prime Numbers
 
-% ! COmpile: c(main).
+% ! Compile: c(main).
 % ! Run: main:functionName(parameters).
 
 -module(main).
@@ -136,14 +136,25 @@ sortList([H|T])->
     % ? [everything less then H]++[H]++[everything grater than H]
     sortList([X||X<-T,X<H])++[H]++sortList([Y||Y<-T,Y>H]).
 
+bubbleSort([])->
+    [];
+bubbleSort([H|T])->
+    sortedTail = bubbleSort([T]),
+    bubble(H,sortedTail).
+
+bubble(H,[])->
+    [H];
+bubble(H,[F|T]) when H<F->
+    [H,F|T];
+bubble(H,[F|T])->
+    [F|bubble(F,T)].
+
     
 % * factorial() gives back a factorial result from N
 factorial(0) ->
     1;
 factorial(N)->
     N*factorial(N-1).
-
-% TODO: sortList() sorts the list 
 
 % * for(start, end, function)
 for(Start, Start, Function)->
