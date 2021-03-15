@@ -34,4 +34,3 @@ pong(N)->
 %? PingId!{ping,self()}. 
 %* ping number: 0 from <0.77.0>{ping,<0.77.0>}
 %? PingId!{ping,PongId}. %? Goes forever!
-

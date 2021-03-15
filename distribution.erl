@@ -1,6 +1,3 @@
-% ! Compile: c(main).
-% ! Run: main:functionName(parameters).
-
 -module(distribution).
 -compile(export_all).
 
@@ -44,10 +41,11 @@ rpc(Pid,Message)->
             Reply
     end.
 
-%! Pid=spawn(distribution,replyServer,[0]).
-%! Pid![1,2,3]. 
-%? variable=spawn(program, server, parameters).
+%? Compile: c(main).
+%! Run: main:functionName(parameters).
+%? Pid=spawn(distribution,replyServer,[0]).
+%? Pid![1,2,3]. 
+%! variable=spawn(program, server, parameters).
 %* <0.90.0>
-%! distribution:rpc(Pid,[1,2,3,4,5]).          
+%? distribution:rpc(Pid,[1,2,3,4,5]).          
 %* [5,4,3,2,1]
-
