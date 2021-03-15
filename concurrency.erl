@@ -271,7 +271,7 @@ keep_alive(Name,Fun)->
 
 %%%! %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%! 
-%%%! HOW TO UPDATE A FUNCTION WITHOUT PUTTING DOWN THE SERVER
+%%%!     HOW TO UPDATE A FUNCTION WITHOUT PUTTING DOWN THE SERVER
 %%%!
 %%%!     calculate(N)... bla bla bla
 %%%!     primeServer(PrimeFunc)->
