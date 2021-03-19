@@ -54,15 +54,15 @@ end.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%? kvs:start().
-%%%? 30> kvs:store(dora, cool).
+%%%? kvs:store(dora, cool).
 %%%? true
-%%%? 31> kvs:store(mihai, better).
+%%%? kvs:store(mihai, better).
 %%%? true
-%%%? 32> kvs:lookup(dora).
-%%%?{ok,cool}
-%%%? 33> kvs:lookup(mihai).
+%%%? kvs:lookup(dora).
+%%%? {ok,cool}
+%%%? kvs:lookup(mihai).
 %%%? {ok,better}
 
-%%*  Terminal 1 (dora@md)                    %%*  Terminal 2 mihai@md)
-%%!  erl -sname mihai                        %%!  erl -sname mihai
-%%!  kvs:lookup(dora).                       %%!  rpc:call(dora@md, kvs, store, [dora, {cool, emacs}]).
+%%%*  Terminal 1 (dora@md)                  %%%*  Terminal 2 mihai@md)
+%%%!  erl -sname mihai                      %%%!  erl -sname mihai
+%%%!  kvs:lookup(dora).                     %%%!  rpc:call(dora@md, kvs, store, [dora, {cool, emacs}]).
