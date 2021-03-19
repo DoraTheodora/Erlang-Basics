@@ -14,7 +14,7 @@
 
 -module(concurrency). %! no capital letter names - it will think is a variable
 %? everything that is public
--export([reverse/1, reverseAcc/2, reverseServer/0,revServer/1,replyServer/1,rpc/2,maxp/1,on_exit/2,keep_alive/2,sleep/1,flush_mailbox/0,priority_receive/0,smallfun/0]).
+-export([reverse/1, reverseAcc/2, reverseServer/0,revServer/1,replyServer/1,rpc/2,maxp/1,on_exit/2,keep_alive/2,sleep/1,flush_mailbox/0,priority_receive/0,smallfun/0,onexit/2]).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,6 +217,7 @@ smallfun()->
 %!  Fault tolerant Server
 %!  Here we set up  our server to tell us when it fails
 %!  monitors the PID 
+%!............................................................................................................
 
 on_exit(PID,FUN)-> %! PID ~ process id, FUN ~ is a function
     spawn(fun()-> Ref=monitor(process,PID), %! monitor the PID
@@ -243,6 +244,35 @@ on_exit(PID,FUN)-> %! PID ~ process id, FUN ~ is a function
 %   {badarg,[{erlang,list_to_atom,[sdjhgdjsak],[]},
 %         {concurrency,smallfun,0,[{file,"concurrency.erl"},{line,201}]}]}
 
+%!............................................................................................................
+%! Monitor a list of PIDs - VERSION 2.0
+onexit(ListPIDs, FUN)->
+    spawn(fun()->   RefList=listMonitor(ListPIDs),
+                    recLooop(RefList, ListPIDs, FUN)
+    end).
+
+recLooop(RefList, PIDList, FUN)->
+    listReceive(RefList, PIDList, FUN),
+    recLooop(RefList, PIDList, FUN).
+
+listReceive([],[], _FUN)->  %!   The underscore means that _FUN might not be used -> anonymous variable
+    true;
+listReceive([Ref1|RefTail],[PID1|PIDTail],FUN)->
+    receive
+        {'DOWN', Ref1, process, PID1, Reason}->FUN(Reason)
+        after 0->
+            listReceive(RefTail, PIDTail, FUN)
+        end.
+
+listMonitor([])->
+    [];
+listMonitor([Pid|TailPIDs])->
+    [monitor(process, Pid)|listMonitor(TailPIDs)].
+
+%? X = doStuff(......),
+%? X == {ok, _}
+%? X == {error, _}
+%!............................................................................................................
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %!  This server cannot die 

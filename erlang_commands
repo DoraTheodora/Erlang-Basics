@@ -1,0 +1,33 @@
+--- INBUILT Dictionary ---
+
+put(fred, happy).
+undefined
+get(fred).
+happy
+
+put(fred, daddy).
+happy
+get(fred).
+daddy
+
+put(joe, [cool, dapper, noDriver]).
+undefined
+get(joe).
+[cool,dapper,noDriver]
+
+get().
+[{fred,daddy},{joe,[cool,dapper,noDriver]}]
+
+erase().
+[{fred,daddy},{joe,[cool,dapper,noDriver]}]
+get().  
+[]
+
+put(31, dora).
+undefined
+put(30, mike).
+undefined
+get_keys().
+[31,30]
+get_keys(mike).
+[30]
