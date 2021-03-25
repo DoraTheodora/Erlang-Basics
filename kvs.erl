@@ -66,3 +66,5 @@ end.
 %%%*  Terminal 1 (dora@md)                  %%%*  Terminal 2 mihai@md)
 %%%!  erl -sname mihai                      %%%!  erl -sname mihai
 %%%!  kvs:lookup(dora).                     %%%!  rpc:call(dora@md, kvs, store, [dora, {cool, emacs}]).
+
+
