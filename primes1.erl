@@ -1,12 +1,18 @@
+%%% @author Joseph <joseph@josephdesktop>
+%%% @copyright (C) 2021, Joseph
+%%% @doc
+%%%
+%%% @end
+%%% Created : 25 Mar 2021 by Joseph <joseph@josephdesktop>
+
 -module(primes).
--export([allPrimes/1,isPrime/1,start/0, rpcFred/1]).
+-export([allPrimes/1,isPrime/1]).
 
 
 findPrimes()->
     receive
         {Sender,N} ->
             Answer=allPrimes(N),
-            io:format("Sender is:~p~n",[self()]),
             Sender!{self(),Answer}
     end.
 
@@ -15,7 +21,6 @@ start()->
     register(fred,Pid=spawn(fun()->findPrimes() end)).
 
 rpcFred(N)->
-    io:format("I am ~p~n",[self()]),
     fred!{self(),N},
     receive
         {fred,Answer}->
@@ -45,13 +50,17 @@ isPrime(N,Max,[Head|Tail]) when Head > Max ->true; %isPrime(N,Tail);
 isPrime(N,Max,[First|Rest]) when N rem First==0->
     false;
 isPrime(N,Max,[_|Rest]) ->
-    isPrime(N,Max,Rest).
+    isPrime(N,Rest).
+
+
+
+
 
 %return true if N is a prime 
 %prime if not evenly divisible by any number less than N
 isPrime(2)->true;
 isPrime(3)->true;
-isPrime(N) when N rem 2 == 0 ->false;
+isPrime(N) when N rem 2 ==0 ->false;
 isPrime(N) when N rem 3 == 0 ->false;
 isPrime(N)->
     notDivisible(3,N div 2 + 1,N).
@@ -67,5 +76,3 @@ append(X,[])->
     [X];
 append(X,[H|T]) ->
     [H|append(X,T)].
-
-%? primer!{self(), 2343434}.
