@@ -21,31 +21,66 @@ rpcFred(N)->
         {fred,Answer}->
             io:format("There are ~d primes less than ~d~n",[Answer,N])
 end.
-            
-%find all primes less than N
-allPrimes(N)->
-    allPrimes(2,N,[]).
 
-allPrimes(High,High,SoFar)->
-    length(SoFar);
-allPrimes(Low,High,SoFar) ->
-    LowIsPrime=isPrime(Low,SoFar),
+allPrimes(N)->
+    allPrimes(2,N,0).
+allPrimes(High, High, NoOfPrimesFound)->
+    NoOfPrimesFound;
+allPrimes(Low, High, TotalSoFar)->
+    LowIsPrime=isPrime(Low,0),
     if
         LowIsPrime==true ->
-            allPrimes(Low+1,High,append(Low,SoFar));
+            put(TotalSoFar+1,Low),
+            allPrimes(Low+1,High,TotalSoFar+1);
         true ->
-            allPrimes(Low+1,High,SoFar)
+            allPrimes(Low+1,High,TotalSoFar)
+    end.
+            
+%find all primes less than N
+%allPrimes(N)->
+%    allPrimes(2,N,[]).
+
+%allPrimes(High,High,SoFar)->
+%    length(SoFar);
+%allPrimes(Low,High,SoFar) ->
+%    LowIsPrime=isPrime(Low,SoFar),
+%    if
+%        LowIsPrime==true ->
+%            allPrimes(Low+1,High,append(Low,SoFar));
+%        true ->
+%            allPrimes(Low+1,High,SoFar)
+%    end.
+
+isPrime(N, PrimesChecked)->
+    isPrime(N, math:sqrt(N),PrimesChecked).
+isPrime(N,Max,PrimesChecked)->
+    NextPrime = get(PrimesChecked+1),
+    if 
+        NextPrime> Max ->
+            true;
+        N rem NextPrime == 0 ->
+            false;
+        true -> isPrime(N, Max, PrimesChecked+1)
     end.
 
-isPrime(N,PrimeList)->isPrime(N,math:sqrt(N),PrimeList).
+
+
+%isPrime(N,Max,[Head|Tail]) when Head > Max ->true; %isPrime(N,Tail);
+%isPrime(N,Max,[First|Rest]) when N rem First==0->
+%    false;
+%isPrime(N,Max,[_|Rest]) ->
+%    isPrime(N,Max,Rest).
+
+
+%isPrime(N,PrimeList)->isPrime(N,math:sqrt(N),PrimeList).
 %isPrime(Number,ListOfPrimes)
-isPrime(N,Max,[])->
-    true;
-isPrime(N,Max,[Head|Tail]) when Head > Max ->true; %isPrime(N,Tail);
-isPrime(N,Max,[First|Rest]) when N rem First==0->
-    false;
-isPrime(N,Max,[_|Rest]) ->
-    isPrime(N,Max,Rest).
+%isPrime(N,Max,[])->
+%    true;
+%isPrime(N,Max,[Head|Tail]) when Head > Max ->true; %isPrime(N,Tail);
+%isPrime(N,Max,[First|Rest]) when N rem First==0->
+%    false;
+%isPrime(N,Max,[_|Rest]) ->
+%    isPrime(N,Max,Rest).
 
 %return true if N is a prime 
 %prime if not evenly divisible by any number less than N
